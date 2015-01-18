@@ -12,7 +12,7 @@ use UAParser\Exception\FetcherException;
 
 class Fetcher
 {
-    private $resourceUri = 'https://raw.githubusercontent.com/tobie/ua-parser/master/regexes.yaml';
+    private $resourceUri = 'https://raw.githubusercontent.com/ua-parser/uap-core/master/regexes.yaml';
 
     /** @var resource */
     private $streamContext;
@@ -22,13 +22,17 @@ class Fetcher
         if (is_resource($streamContext) && get_resource_type($streamContext) === 'stream-context') {
             $this->streamContext = $streamContext;
         } else {
+            // Since PHP 5.6, CN_match is deprecated
+            $is56 = version_compare(PHP_VERSION, '5.6') === 1;
+            $peerNameKey = $is56  ? 'peer_name' : 'CN_match';
+            $peerName = $is56 ? 'raw.githubusercontent.com' : 'www.github.com';
             $this->streamContext = stream_context_create(
                 array(
                     'ssl' => array(
                         'verify_peer'         => true,
-                        'verify_depth'        => 5,
+                        'verify_depth'        => 10,
                         'cafile'              => __DIR__ . '/../../resources/ca-bundle.crt',
-                        'CN_match'            => 'www.github.com',
+                        $peerNameKey          => $peerName,
                         'disable_compression' => true,
                     )
                 )

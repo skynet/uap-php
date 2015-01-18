@@ -59,7 +59,8 @@ class Converter
      */
     protected function doConvert(array $regexes, $backupBeforeOverride = true)
     {
-        $data = "<?php\nreturn " . var_export($regexes, true) . ';';
+        $regexes = $this->sanitizeRegexes($regexes);
+        $data = "<?php\nreturn " . preg_replace('/\s+$/m', '', var_export($regexes, true)) . ';';
 
         $regexesFile = $this->destination . '/regexes.php';
         if ($backupBeforeOverride && $this->fs->exists($regexesFile)) {
@@ -76,5 +77,21 @@ class Converter
         }
 
         $this->fs->dumpFile($regexesFile, $data);
+    }
+
+    private function sanitizeRegexes(array $regexes)
+    {
+        foreach ($regexes as $groupName => $group) {
+            $regexes[$groupName] = array_map(array($this, 'sanitizeRegex'), $group);
+        }
+
+        return $regexes;
+    }
+
+    private function sanitizeRegex(array $regex)
+    {
+        $regex['regex'] = str_replace('@', '\@', $regex['regex']);
+
+        return $regex;
     }
 }

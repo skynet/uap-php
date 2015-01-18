@@ -1,8 +1,16 @@
 # ua-parser PHP Library #
 
-This is the PHP library for the [ua-parser](https://github.com/tobie/ua-parser) project.
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ua-parser/uap-php?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.org/ua-parser/uap-php.svg?branch=master)](https://travis-ci.org/ua-parser/uap-php) [![Dependency Status](https://www.versioneye.com/user/projects/54b2a6f48014baeded000219/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54b2a6f48014baeded000219) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/ua-parser/uap-php.svg)](http://isitmaintained.com/project/ua-parser/uap-php "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/ua-parser/uap-php.svg)](http://isitmaintained.com/project/ua-parser/uap-php "Percentage of issues still open")
 
-# v3.3 Changes
+This is the PHP library for the [uap-core](https://github.com/ua-parser/uap-core) project.
+
+## v3.4 Changes
+Move done to it’s own dedicated project. Now officially available via composer as `ua-parser/uap-php`
+ * Use `peer_name` instead of `CN_match` for PHP >=5.6
+ * Advertise Gitter chat for support requests
+ * Include uap-core as a git submodule
+
+## v3.3 Changes
 
 v3.3 of the PHP library is no longer compatible with the previous version. It now supports composer, requires PHP 5.3
 and has a slightly different API (see below).
@@ -58,7 +66,7 @@ print $result->os->toVersion();       // 10.7.5
 print $result->device->family;        // Other
 
 print $result->toString();            // Safari 6.0.2/Mac OS X 10.7.5
-print $result->originalUserAgent;            // Mozilla/5.0 (Macintosh; Intel Ma...
+print $result->originalUserAgent;     // Mozilla/5.0 (Macintosh; Intel Ma...
 ```
 
 ## Using Your Own Custom regexes.php File ##
@@ -137,3 +145,6 @@ Also, many thanks to the following major contributors to the PHP library:
 * The user agents data from the ua-parser project is licensed under the Apache license
 * The initial list of generic feature phones & smartphones came from Mobile Web OSP under the MIT license
 * The initial list of spiders was taken from Yiibu's profile project under the MIT license.
+
+## Installation ##
+Add `ua-parser/uap-php` to the require section of your `composer.json` file and run `composer update`.  
